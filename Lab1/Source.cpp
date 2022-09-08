@@ -33,39 +33,55 @@ void PrintStudent(Student mas[], int numberStudent)
 			mas[i].marks[0], mas[i].marks[1], mas[i].marks[2], mas[i].marks[3], mas[i].marks[4]);
 }
 
-void Sort(Student mas[], int numberStudent, int d)
+void Sort(Student mas[], int numberStudent, int d = 0)
 {
+	int max = INT_MAX;
+	for (int i = 0; i < numberStudent - 1; i++)
+	{
+		if (strlen(mas[i].surname) > strlen(mas[i + 1].surname))
+			max = strlen(mas[i].surname);
+		else
+			max = strlen(mas[i + 1].surname);
+	}
+
+	for (int f = 0; f < max; f++)
+	{
+		for (int i = 0; i < numberStudent; i++)
+			for (int j = 0; j < numberStudent - 1; j++)
+			{
+				if (mas[j].surname[d] > mas[j + 1].surname[d])
+				{
+					Student tmp = mas[j];
+					mas[j] = mas[j + 1];
+					mas[j + 1] = tmp;
+				}
+				if (mas[j].surname[d] == mas[j + 1].surname[d])
+				{
+					int k = d + 1;
+					if (mas[j].surname[k] > mas[j + 1].surname[k])
+					{
+						Student tmp = mas[j];
+						mas[j] = mas[j + 1];
+						mas[j + 1] = tmp;
+					}
+				}
+			}
+		d++;
+	}
+	/*d++;
 	for (int i = 0; i < numberStudent; i++)
 		for (int j = 0; j < numberStudent - 1; j++)
 		{
-			if (mas[j].surname[d] > mas[j + 1].surname[d])
+			if (mas[j].surname[d] == mas[j + 1].surname[d])
 			{
-				Student tmp = mas[j];
-				mas[j] = mas[j + 1];
-				mas[j + 1] = tmp;
+				if (mas[j].surname[d] > mas[j + 1].surname[d])
+				{
+					Student tmp = mas[j];
+					mas[j] = mas[j + 1];
+					mas[j + 1] = tmp;
+				}
 			}
-			/*if (mas[j].surname[0] == mas[j + 1].surname[0])
-			{
-				for (int k = 0; k < numberStudent; k++)
-					for (int l = 0; l < numberStudent - 1; l++)
-					{
-						if (mas[l].surname[1] > mas[l + 1].surname[1])
-						{
-							Student tmp = mas[j];
-							mas[j] = mas[j + 1];
-							mas[j + 1] = tmp;
-						}
-					}
-			}*/
-		}
-	/*for (int i = 0; i < numberStudent; i++)
-	{
-		if (mas[i].surname[d] == mas[i + 1].surname[d])
-		{
-			d++;
-			Sort(mas, numberStudent, d);
-		}
-	}*/
+		}*/
 }
 
 int main()
@@ -81,8 +97,7 @@ int main()
 	
 	PrintStudent(mas, numberStudent);
 
-	int d = 0;
-	Sort(mas, numberStudent, d);
+	Sort(mas, numberStudent);
 
 	printf("\n\n\n");
 	PrintStudent(mas, numberStudent);
