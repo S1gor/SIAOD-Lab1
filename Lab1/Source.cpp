@@ -20,68 +20,54 @@ void ReadFile(const char* filename, Student mas[], int numberStudent)
 	}
 
 	for (int i = 0; i < numberStudent; i++)
+	{
 		fscanf_s(file, "%s%s%s%d%d%d%d%d%d", &mas[i].surname, 20, &mas[i].name, 20, &mas[i].fathername, 20, &mas[i].recordNumber,
 			&mas[i].marks[0], &mas[i].marks[1], &mas[i].marks[2], &mas[i].marks[3], &mas[i].marks[4]);
+		mas[i].avgMarks = float(mas[i].marks[0] + mas[i].marks[1] + mas[i].marks[2] + mas[i].marks[3] + mas[i].marks[4]) / 5;
+	}
 
 	fclose(file);
+}
+
+int SelectSorting()
+{
+	int choose;
+	do {
+		printf("Выберите сортировку:\n1 - по фамилии\n2 - по среднему баллу\nВыбор:");
+		scanf_s("%d", &choose);
+	} while (choose > 2 || choose < 1);
+	return choose;
+}
+
+void SortSurname(Student mas[], int numberStudent)
+{
+	for (int i = 0; i < numberStudent - 1; i++)
+		for (int j = 0; j < numberStudent - i - 1; j++)
+			if (strcmp(mas[j].surname, mas[j + 1].surname) > 0)
+			{
+				Student tmp = mas[j];
+				mas[j] = mas[j + 1];
+				mas[j + 1] = tmp;
+			}
+}
+
+void SortAvgMarks(Student mas[], int numberStudent)
+{
+	for (int i = 0; i < numberStudent - 1; i++)
+		for (int j = 0; j < numberStudent - i - 1; j++)
+			if (mas[j].avgMarks < mas[j + 1].avgMarks)
+			{
+				Student tmp = mas[j];
+				mas[j] = mas[j + 1];
+				mas[j + 1] = tmp;
+			}
 }
 
 void PrintStudent(Student mas[], int numberStudent)
 {
 	for (int i = 0; i < numberStudent; i++)
-		printf("%s\t%s\t%s\t%d\t%d %d %d %d %d\n", mas[i].surname, mas[i].name, mas[i].fathername, mas[i].recordNumber,
-			mas[i].marks[0], mas[i].marks[1], mas[i].marks[2], mas[i].marks[3], mas[i].marks[4]);
-}
-
-void Sort(Student mas[], int numberStudent, int d = 0)
-{
-	int max = INT_MAX;
-	for (int i = 0; i < numberStudent - 1; i++)
-	{
-		if (strlen(mas[i].surname) > strlen(mas[i + 1].surname))
-			max = strlen(mas[i].surname);
-		else
-			max = strlen(mas[i + 1].surname);
-	}
-
-	for (int f = 0; f < max; f++)
-	{
-		for (int i = 0; i < numberStudent; i++)
-			for (int j = 0; j < numberStudent - 1; j++)
-			{
-				if (mas[j].surname[d] > mas[j + 1].surname[d])
-				{
-					Student tmp = mas[j];
-					mas[j] = mas[j + 1];
-					mas[j + 1] = tmp;
-				}
-				if (mas[j].surname[d] == mas[j + 1].surname[d])
-				{
-					int k = d + 1;
-					if (mas[j].surname[k] > mas[j + 1].surname[k])
-					{
-						Student tmp = mas[j];
-						mas[j] = mas[j + 1];
-						mas[j + 1] = tmp;
-					}
-				}
-			}
-		d++;
-	}
-	/*d++;
-	for (int i = 0; i < numberStudent; i++)
-		for (int j = 0; j < numberStudent - 1; j++)
-		{
-			if (mas[j].surname[d] == mas[j + 1].surname[d])
-			{
-				if (mas[j].surname[d] > mas[j + 1].surname[d])
-				{
-					Student tmp = mas[j];
-					mas[j] = mas[j + 1];
-					mas[j + 1] = tmp;
-				}
-			}
-		}*/
+		printf("%s\t%s\t%s\t%d\t%d %d %d %d %d | %.1f\n", mas[i].surname, mas[i].name, mas[i].fathername, mas[i].recordNumber,
+			mas[i].marks[0], mas[i].marks[1], mas[i].marks[2], mas[i].marks[3], mas[i].marks[4], mas[i].avgMarks);
 }
 
 int main()
@@ -94,12 +80,18 @@ int main()
 	char filename[] = "1.txt";
 
 	ReadFile(filename, mas, numberStudent);
-	
-	PrintStudent(mas, numberStudent);
 
-	Sort(mas, numberStudent);
+	switch (SelectSorting())
+	{
+	case 1:
+		SortSurname(mas, numberStudent);
+		break;
+	case 2:
+		SortAvgMarks(mas, numberStudent);
+		break;
+	}
 
-	printf("\n\n\n");
+	printf("\n");
 	PrintStudent(mas, numberStudent);
 
 
