@@ -43,12 +43,24 @@ void SortSurname(Student mas[], int numberStudent)
 {
 	for (int i = 0; i < numberStudent - 1; i++)
 		for (int j = 0; j < numberStudent - i - 1; j++)
-			if (strcmp(mas[j].surname, mas[j + 1].surname) > 0)
+		{
+			switch (strcmp(mas[j].surname, mas[j + 1].surname))
 			{
+			case 1:
 				Student tmp = mas[j];
 				mas[j] = mas[j + 1];
 				mas[j + 1] = tmp;
+				break;
+			case 0:
+				if (strcmp(mas[j].name, mas[j + 1].name) > 0)
+				{
+					Student tmp = mas[j];
+					mas[j] = mas[j + 1];
+					mas[j + 1] = tmp;
+				}
+				break;
 			}
+		}
 }
 
 void SortAvgMarks(Student mas[], int numberStudent)
@@ -93,7 +105,6 @@ int main()
 
 	printf("\n");
 	PrintStudent(mas, numberStudent);
-
 
 	return 0;
 }
