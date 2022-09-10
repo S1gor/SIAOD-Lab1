@@ -77,9 +77,11 @@ void SortAvgMarks(Student mas[], int numberStudent)
 
 void PrintStudent(Student mas[], int numberStudent)
 {
+	printf("П - Программирование\nФ - Физика\nА - Английский\nИ - Информатика\nМ - Математика\n\nФАМИЛИЯ\t ИМЯ\t ОТЧЕСТВО\tЗАЧ.КН.\tП Ф А И М | Ср.балл\n");
 	for (int i = 0; i < numberStudent; i++)
 		printf("%s\t%s\t%s\t%d\t%d %d %d %d %d | %.1f\n", mas[i].surname, mas[i].name, mas[i].fathername, mas[i].recordNumber,
 			mas[i].marks[0], mas[i].marks[1], mas[i].marks[2], mas[i].marks[3], mas[i].marks[4], mas[i].avgMarks);
+	printf("\n");
 }
 
 int main()
@@ -92,6 +94,7 @@ int main()
 	char filename[] = "1.txt";
 
 	ReadFile(filename, mas, numberStudent);
+	PrintStudent(mas, numberStudent);
 
 	switch (SelectSorting())
 	{
