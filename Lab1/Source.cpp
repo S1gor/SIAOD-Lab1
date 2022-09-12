@@ -33,9 +33,9 @@ int SelectSorting()
 {
 	int choose;
 	do {
-		printf("Выберите сортировку:\n1 - по фамилии\n2 - по среднему баллу\nВыбор:");
+		printf("Выберите сортировку:\n1 - по фамилии\n2 - по среднему баллу\n3 - Вывести учеников, у которых средний балл от 3.5 до 4.5\nВыбор:");
 		scanf_s("%d", &choose);
-	} while (choose > 2 || choose < 1);
+	} while (choose > 3 || choose < 1);
 	return choose;
 }
 
@@ -77,11 +77,18 @@ void SortAvgMarks(Student mas[], int numberStudent)
 
 void PrintStudent(Student mas[], int numberStudent)
 {
-	printf("П - Программирование\nФ - Физика\nА - Английский\nИ - Информатика\nМ - Математика\n\nФАМИЛИЯ\t ИМЯ\t ОТЧЕСТВО\tЗАЧ.КН.\tП Ф А И М | Ср.балл\n");
 	for (int i = 0; i < numberStudent; i++)
 		printf("%s\t%s\t%s\t%d\t%d %d %d %d %d | %.1f\n", mas[i].surname, mas[i].name, mas[i].fathername, mas[i].recordNumber,
 			mas[i].marks[0], mas[i].marks[1], mas[i].marks[2], mas[i].marks[3], mas[i].marks[4], mas[i].avgMarks);
 	printf("\n");
+}
+
+void printAvgMarks(Student mas[], int numberStudent)
+{
+	for (int i = 0; i < numberStudent; i++)
+		if (mas[i].avgMarks >= 3.5 && mas[i].avgMarks <= 4.5)
+			printf("%s\t%s\t%s\t%d\t%d %d %d %d %d | %.1f\n", mas[i].surname, mas[i].name, mas[i].fathername, mas[i].recordNumber,
+				mas[i].marks[0], mas[i].marks[1], mas[i].marks[2], mas[i].marks[3], mas[i].marks[4], mas[i].avgMarks);
 }
 
 int main()
@@ -100,14 +107,19 @@ int main()
 	{
 	case 1:
 		SortSurname(mas, numberStudent);
+		printf("\n");
+		PrintStudent(mas, numberStudent);
 		break;
 	case 2:
 		SortAvgMarks(mas, numberStudent);
+		printf("\n");
+		PrintStudent(mas, numberStudent);
+		break;
+	case 3:
+		printf("\n");
+		printAvgMarks(mas, numberStudent);
 		break;
 	}
-
-	printf("\n");
-	PrintStudent(mas, numberStudent);
 
 	return 0;
 }
